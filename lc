@@ -1,0 +1,52 @@
+#!/bin/bash
+
+cmd_name="$1"
+if [ -z "$cmd_name" ] ; then
+	cat << EOF
+usage: $0 command
+EOF
+exit 1
+fi
+
+PRG="$0"
+while [ -h "$PRG" ]; do
+	ls=`ls -ld "$PRG"`
+	link=`expr "$ls" : '.*-> \(.*\)$'`
+	if expr "$link" : '/.*' > /dev/null; then
+		PRG="$link"
+	else
+		PRG=`dirname "$PRG"`/"$link"
+	fi  
+done
+
+# 基本配置信息
+lc_path=`dirname $PRG`
+
+lc_config_path=$lc_path/config
+lc_lib_path=$lc_path/lib
+lc_bin_path=$lc_path/bin
+
+PATH=$PATH:$lc_bin_path
+
+for mylib in `find "$lc_lib_path" -type f -name "lc_*_lib.sh"`
+do
+	source $mylib
+done
+
+shift
+if ! check_cmd_exists "$cmd_name" ; then
+	if check_cmd_exists "lc_$cmd_name.sh" ; then
+		cmd_name=lc_$cmd_name.sh
+	elif check_cmd_exists "lc_$cmd_name" ; then
+		cmd_name=lc_$cmd_name
+	elif check_cmd_exists "$cmd_name.sh" ; then
+		cmd_name=$cmd_name.sh
+	elif check_is_fun $cmd_name ; then
+		$cmd_name $*
+		exit 0
+	else
+		echo 程序$cmd_name没有找到，执行失败
+		exit 1
+	fi	
+fi
+. $cmd_name $*
