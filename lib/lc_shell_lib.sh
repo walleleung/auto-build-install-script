@@ -92,3 +92,17 @@ function get_final_cmd()
 	done
 	echo $PRG
 }
+
+# 输出path_开头变量指定的目录，对应的配置文件为lc_path.config
+function lc_pwd()
+{
+	if [ -f $lc_config_path/lc_path.config ] ; then
+		source $lc_config_path/lc_path.config
+	fi
+	if [ -n "`eval echo \\${go_$1}`" ] ; then
+		eval "echo \${go_$1}"
+	else
+		#echo 进入指定目录：失败，没有找到$1对应的目录
+		return 1
+	fi
+}
