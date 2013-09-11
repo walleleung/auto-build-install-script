@@ -1,6 +1,7 @@
 #!/bin/bash
 
-n push_jar_and_war_4target()
+# 自动将maven工程下target目录下的jar和war包推送到变量jar_path和war_path下
+function push_jar_and_war_4target()
 {
 	error_text="推送jar包和war包失败，失败原因为："
 	if [ $# -lt 1 -o -z "$1" ] ; then
@@ -16,13 +17,14 @@ n push_jar_and_war_4target()
 		echo ${error_text}jar和war的目标目录没有配置，请配置jar_path和war_path环境变量
 		return 1
 	fi
-	cp -f $prog_sp/*.jar $jar_path 2>/dev/null
-	cp -f $prog_sp/*.war $war_path 2>/dev/null
+	cp -vf $prog_sp/*.jar $jar_path 2>/dev/null
+	cp -vf $prog_sp/*.war $war_path 2>/dev/null
 	if [ -d "$prog_sp/lib" ] ; then 
 		cp -f $prog_sp/lib/*.jar $jar_path/lib
 	fi  
 }
 
+# 自动将工作空间下所有maven工程target目录下的jar和war包推送到变量jar_path和war_path下
 function push_jar_and_war_4sp()
 {
 	error_text="推送jar包和war包失败，失败原因为："
