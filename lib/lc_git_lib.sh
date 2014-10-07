@@ -10,7 +10,7 @@ function git_update()
   giturl="$2"
   if [ -d "$gitpath" ] ; then
     cd $gitpath
-    git pull master origin
+    git pull origin master
   else
     mkdir -p "$gitpath"
     git clone "$giturl" "$gitpath"
