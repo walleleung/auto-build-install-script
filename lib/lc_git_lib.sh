@@ -8,6 +8,7 @@ function git_update()
   fi
   gitpath="$1"
   giturl="$2"
+  unset GIT_DIR
   if [ -d "$gitpath" ] ; then
     cd $gitpath
     git pull origin master

@@ -23,7 +23,6 @@ function ckprogs()
 		echo $fun_info失败，程序关键字没有指定
 		return 1
 	fi
-	ps -ef | grep "$prog_name" | grep -v "grep" | grep -v "$0"
 	prog_count=`ps -ef | grep "$prog_name" | grep -v "grep" | grep -v "$0" | wc -l`
 	return $(expr $prog_count = 0)
 }

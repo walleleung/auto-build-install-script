@@ -10,6 +10,7 @@ fi
 
 if [ -z "$lc_has_init" ]; then
 
+	export PATH=$PATH:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:~/bin
 	#echo "init lc env..."
 	PRG="$0"
 	while [ -h "$PRG" ]; do
